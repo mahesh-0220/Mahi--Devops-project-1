@@ -1,5 +1,9 @@
 version: 0.2
 
+env:
+  variables:
+    AWS_STS_REGIONAL_ENDPOINTS: regional
+
 phases:
   install:
     commands:
@@ -14,6 +18,8 @@ phases:
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 060699023193.dkr.ecr.us-east-1.amazonaws.com
       - echo "Connecting to EKS Cluster..."
       - aws eks update-kubeconfig --name mahi-cluster --region us-east-1
+      # IMPORTANT: This will tell us the exact ARN EKS is seeing
+      - aws sts get-caller-identity
       - kubectl get nodes
 
   build:
@@ -30,8 +36,3 @@ phases:
       - kubectl apply -f deployment.yaml --validate=false
       - kubectl apply -f service.yaml --validate=false
       - echo "Deployment Complete!"
-
-artifacts:
-  files: 
-    - deployment.yaml
-    - service.yaml
