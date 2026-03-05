@@ -14,6 +14,7 @@ phases:
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 060699023193.dkr.ecr.us-east-1.amazonaws.com
       - echo "Connecting to EKS Cluster..."
       - aws eks update-kubeconfig --name mahi-cluster --region us-east-1
+      - kubectl get nodes
 
   build:
     commands:
@@ -26,8 +27,8 @@ phases:
       - echo "Pushing the Docker image to ECR..."
       - docker push 060699023193.dkr.ecr.us-east-1.amazonaws.com/mahi-tasks-app:latest
       - echo "Deploying to EKS..."
-      - kubectl apply -f deployment.yaml
-      - kubectl apply -f service.yaml
+      - kubectl apply -f deployment.yaml --validate=false
+      - kubectl apply -f service.yaml --validate=false
       - echo "Deployment Complete!"
 
 artifacts:
