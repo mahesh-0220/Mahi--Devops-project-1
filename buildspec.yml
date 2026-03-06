@@ -18,7 +18,6 @@ phases:
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 060699023193.dkr.ecr.us-east-1.amazonaws.com
       - echo "Connecting to EKS Cluster..."
       - aws eks update-kubeconfig --name mahi-cluster --region us-east-1
-      # IMPORTANT: This will tell us the exact ARN EKS is seeing
       - aws sts get-caller-identity
       - kubectl get nodes
 
