@@ -1,0 +1,11 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+      - chmod +x kubectl
+      - mv kubectl /usr/local/bin/
+  build:
+    commands:
+      - aws eks update-kubeconfig --name mahi-cluster --region us-east-1
+      - kubectl apply -f deployment.yaml
