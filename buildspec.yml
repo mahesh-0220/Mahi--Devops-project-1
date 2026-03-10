@@ -33,5 +33,4 @@ phases:
       - docker push 060699023193.dkr.ecr.us-east-1.amazonaws.com/mahi-tasks-app:latest
       - echo "Deploying to EKS..."
       - kubectl apply -f deployment.yaml --validate=false
-      - kubectl apply -f service.yaml --validate=false
       - echo "Deployment Complete!"
